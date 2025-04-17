@@ -1,14 +1,23 @@
 #include "3d/WorldTransform.h"
-#include "affine.h"
 #include <KamataEngine.h>
+#include <math/MathUtility.h>
 
-void KamataEngine::WorldTransform::UpdateMatarix() {
-	// スケール、回転、平行移動を合成して行列を計算する
-	matWorld_ = MakeAffineMatrix(scale_, rotation_, translation_);
+using namespace KamataEngine;
+using namespace MathUtility;
 
-	if (parent_) {
-		matWorld_ *= parent_->matWorld_;
-	}
+
+void WorldTransform::UpdateMatarix() {
+
+	Matrix4x4 matScale = MakeScaleMatrix(scale_);
+
+	Matrix4x4 matRotateX = MakeRotateXMatrix(rotation_.x);
+	Matrix4x4 matRotateY = MakeRotateYMatrix(rotation_.y);
+	Matrix4x4 matRotateZ = MakeRotateZMatrix(rotation_.z);
+	Matrix4x4 matRot = matRotateZ * matRotateX * matRotateY;
+
+	Matrix4x4 matTranslate = MakeTranslateMatrix(translation_);
+
+	matWorld_ = matScale * matRot * matTranslate;
 
 	// 定数バッファに転送する
 	TransferMatrix();

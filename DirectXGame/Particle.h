@@ -18,4 +18,7 @@ private:
 
 	WorldTransform worldTransform_; // ワールド変形
 	Model* model_ = nullptr;        // モデル
+
+	ObjectColor objectcolor_;
+	Vector4 color_;
 };
