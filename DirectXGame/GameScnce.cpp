@@ -13,11 +13,15 @@ void GameScnce::Initialize() {
 	camera_ = new Camera();
 	camera_->Initialize();
 
+	Vector3 position = {0.0f, 0.0f, 0.0f};
 	particle_ = new Particle();
-	particle_->Initialize(modelParticle_);
+	particle_->Initialize(modelParticle_, position);
 
 	// ワールド変形の初期化
 	worldTransform_.Initialize();
+
+	for (int i = 0; i < 150; i++) {
+	}
 }
 
 

@@ -8,7 +8,7 @@ class Particle
 public:
 
 	// 初期化
-	void Initialize(Model* model);
+	void Initialize(Model* model, Vector3 position);
 	// 更新
 	void Update();
 	// 描画

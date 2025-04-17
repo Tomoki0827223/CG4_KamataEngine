@@ -3,11 +3,12 @@
 
 using namespace MathUtility;
 
-void Particle::Initialize(Model* model) 
+void Particle::Initialize(Model* model,Vector3 position) 
 { 
 	assert(model);
 	model_ = model;
 	worldTransform_.Initialize();
+	worldTransform_.translation_ = position; // ワールド変形の位置を初期化
 
 	objectcolor_.Initialize();
 	color_ = {1, 1, 0, 1}; // RGBA形式で色を指定

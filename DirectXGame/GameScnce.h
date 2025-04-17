@@ -25,4 +25,5 @@ private:
 	// ワールド変形
 	WorldTransform worldTransform_;
 
+	std::list<Particle*> particles_; // パーティクルのリスト
 };
