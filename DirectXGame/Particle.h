@@ -8,7 +8,7 @@ class Particle
 public:
 
 	// 初期化
-	void Initialize(Model* model, Vector3 position);
+	void Initialize(Model* model, Vector3 position, Vector3 velocity);
 	// 更新
 	void Update();
 	// 描画
@@ -21,4 +21,5 @@ private:
 
 	ObjectColor objectcolor_;
 	Vector4 color_;
+	Vector3 velocity_; // 速度
 };

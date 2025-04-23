@@ -1,4 +1,11 @@
 #include "GameScnce.h"
+#include <random>
+
+using namespace MathUtility;
+
+std::random_device seedGenerator;
+std::mt19937 randomEngine(seedGenerator()); // メルセンヌツイスタの初期化
+std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
 GameScnce::~GameScnce() 
 { 
@@ -20,8 +27,12 @@ void GameScnce::Initialize() {
 
 	for (int i = 0; i < 150; i++) {
 		Particle* particle = new Particle();
-		Vector3 position = {0.5f * i, 0.0f, 0.0f};
-		particle->Initialize(modelParticle_, position);
+		Vector3 position = {0.0f, 0.0f, 0.0f};
+		Vector3 velocity = {distribution(randomEngine), distribution(randomEngine), 0}; // ランダムな速度を生成
+		Normalize(velocity);
+		velocity *= distribution(randomEngine); // ランダムな速度を生成
+		velocity *= 0.1f;                       // スピードを調整
+		particle->Initialize(modelParticle_, position, velocity);
 		particles_.push_back(particle);
 	}
 	

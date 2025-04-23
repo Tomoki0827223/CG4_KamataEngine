@@ -3,12 +3,16 @@
 
 using namespace MathUtility;
 
-void Particle::Initialize(Model* model,Vector3 position) 
+void Particle::Initialize(Model* model,Vector3 position, Vector3 velocity) 
 { 
 	assert(model);
 	model_ = model;
+	velocity_ = velocity; // 速度を初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position; // ワールド変形の位置を初期化
+
+	//大きさ
+	worldTransform_.scale_ = {0.2f, 0.2f, 0.2f}; // ワールド変形の大きさを初期化
 
 	objectcolor_.Initialize();
 	color_ = {1, 1, 0, 1}; // RGBA形式で色を指定
@@ -16,7 +20,7 @@ void Particle::Initialize(Model* model,Vector3 position)
 
 void Particle::Update() 
 {
-	worldTransform_.translation_ += {0.0f, 0.1f, 0.0f}; // ワールド変形の位置を初期化
+	worldTransform_.translation_ += velocity_; // ワールド変形の位置を初期化
 	worldTransform_.TransferMatrix();                   // ワールド変形の転送
 	worldTransform_.UpdateMatarix(); // ワールド変形の更新
 
