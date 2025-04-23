@@ -22,4 +22,6 @@ private:
 	ObjectColor objectcolor_;
 	Vector4 color_;
 	Vector3 velocity_; // 速度
+
+
 };
