@@ -51,6 +51,16 @@ void GameScnce::Update() {
 		particle->Update();
 	}
 
+	// 終了フラグの立ったパーティクルを削除
+	for (auto it = particles_.begin(); it != particles_.end();) {
+		if ((*it)->IsFinished()) {
+			delete *it;
+			it = particles_.erase(it);
+		} else {
+			++it;
+		}
+	}
+
 	worldTransform_.TransferMatrix();
 }
 

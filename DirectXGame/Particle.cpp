@@ -20,6 +20,23 @@ void Particle::Initialize(Model* model,Vector3 position, Vector3 velocity)
 
 void Particle::Update() 
 {
+	//フェード処理
+	color_.w = std::clamp(1.0f - counter_ / kDuration, 0.0f, 1.0f); // アルファ値を更新
+
+	if (isFinished_) {
+		return;
+	}
+
+	counter_ += 1.0f / 60.0f; // カウンターを更新
+
+	if (counter_ >= kDuration) {
+
+		counter_ = kDuration; // カウンターを最大値にする
+
+		isFinished_ = true; // 寿命を超えたら終了
+	}
+
+
 	worldTransform_.translation_ += velocity_; // ワールド変形の位置を初期化
 	worldTransform_.TransferMatrix();                   // ワールド変形の転送
 	worldTransform_.UpdateMatarix(); // ワールド変形の更新
