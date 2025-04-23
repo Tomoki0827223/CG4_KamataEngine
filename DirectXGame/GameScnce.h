@@ -4,23 +4,25 @@
 
 using namespace KamataEngine;
 
-class GameScnce 
-{
+class GameScnce {
 public:
-	
 	~GameScnce();
-	
+
 	void Initialize();
 	void Update();
 	void Draw();
 
-private:
+	/// <summary>
+	/// パーティクル発生
+	/// </summary>
+	void ParticleBorn(Vector3 position);
 
+private:
 	// 3Dモデルの生成
 	Model* modelParticle_ = nullptr;
-	//カメラ
+	// カメラ
 	Camera* camera_ = nullptr;
-	//パーティクル
+	// パーティクル
 	Particle* particle_ = nullptr;
 	// ワールド変形
 	WorldTransform worldTransform_;
