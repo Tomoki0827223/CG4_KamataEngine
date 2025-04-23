@@ -5,6 +5,11 @@ GameScnce::~GameScnce()
 	delete modelParticle_;
 	delete camera_;
 	delete particle_;
+
+	for (Particle* particle : particles_) {
+		delete particle;
+	}
+	particles_.clear();
 }
 
 void GameScnce::Initialize() {
@@ -13,15 +18,15 @@ void GameScnce::Initialize() {
 	camera_ = new Camera();
 	camera_->Initialize();
 
-	Vector3 position = {0.0f, 0.0f, 0.0f};
-	particle_ = new Particle();
-	particle_->Initialize(modelParticle_, position);
-
+	for (int i = 0; i < 150; i++) {
+		Particle* particle = new Particle();
+		Vector3 position = {0.5f * i, 0.0f, 0.0f};
+		particle->Initialize(modelParticle_, position);
+		particles_.push_back(particle);
+	}
+	
 	// ワールド変形の初期化
 	worldTransform_.Initialize();
-
-	for (int i = 0; i < 150; i++) {
-	}
 }
 
 
@@ -31,8 +36,10 @@ void GameScnce::Update() {
 	// ワールド変形の更新
 	worldTransform_.UpdateMatarix();
 	// パーティクルの更新
-	particle_->Update(); // ここでワールド変形を更新する
-	
+	for (Particle * particle : particles_) {
+		particle->Update();
+	}
+
 	worldTransform_.TransferMatrix();
 }
 
@@ -42,7 +49,9 @@ void GameScnce::Draw()
 	Model::PreDraw(dxCommon->GetCommandList());
 
 	// パーティクルの描画
-	particle_->Draw(camera_);
+	for (Particle* particle : particles_) {
+		particle->Draw(camera_);
+	}
 
 	Model::PostDraw();
 
