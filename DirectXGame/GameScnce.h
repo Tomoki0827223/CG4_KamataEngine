@@ -1,6 +1,6 @@
 #pragma once
 #include "KamataEngine.h"
-#include "Particle.h"
+#include "Model_Particle.h"
 
 using namespace KamataEngine;
 
@@ -12,20 +12,14 @@ public:
 	void Update();
 	void Draw();
 
-	/// <summary>
-	/// パーティクル発生
-	/// </summary>
-	void ParticleBorn(Vector3 position);
-
 private:
-	// 3Dモデルの生成
-	Model* modelParticle_ = nullptr;
+
 	// カメラ
 	Camera* camera_ = nullptr;
-	// パーティクル
-	Particle* particle_ = nullptr;
 	// ワールド変形
 	WorldTransform worldTransform_;
 
-	std::list<Particle*> particles_; // パーティクルのリスト
+	Model* model_ = nullptr;
+
+	Model_Particle* model_particle_ = nullptr;
 };

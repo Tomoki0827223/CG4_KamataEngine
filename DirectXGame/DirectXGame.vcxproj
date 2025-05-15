@@ -109,7 +109,7 @@
     <ClCompile Include="affine.cpp" />
     <ClCompile Include="GameScnce.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="Model_Particle.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +190,7 @@
   <ItemGroup>
     <ClInclude Include="affine.h" />
     <ClInclude Include="GameScnce.h" />
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="Model_Particle.h" />
     <ClInclude Include="WorldTransformEx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
