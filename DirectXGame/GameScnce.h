@@ -24,5 +24,4 @@ private:
 	Particle* particle_ = nullptr;
 	// ワールド変形
 	WorldTransform worldTransform_;
-
 };

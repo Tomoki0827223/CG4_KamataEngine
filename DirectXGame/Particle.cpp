@@ -7,7 +7,11 @@ void Particle::Initialize(Model* model)
 	worldTransform_.Initialize();
 }
 
-void Particle::Update() {}
+void Particle::Update() 
+{ 
+	worldTransform_.rotation_.x = 0.0f;
+	worldTransform_.UpdateMatarix();
+}
 
 void Particle::Draw(Camera* camera) {
 
