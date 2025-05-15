@@ -3,7 +3,7 @@
 
 using namespace KamataEngine;
 
-class Particle 
+class Effect 
 {
 public:
 

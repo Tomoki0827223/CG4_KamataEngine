@@ -1,10 +1,17 @@
 #include "GameScnce.h"
+#include <random>
+
+// グローバルまたはクラス内で乱数エンジンを用意
+std::random_device seedGen;
+std::mt19937 engine(seedGen());
+std::uniform_real_distribution<float> scaleDist(0.5f, 2.0f);             // Yスケール範囲
+std::uniform_real_distribution<float> rotDist(0.0f, 3.14159265f * 2.0f); // Z回転範囲（0～2π）
 
 GameScnce::~GameScnce() 
 { 
 	delete modelParticle_;
 	delete camera_;
-	delete particle_;
+	delete effect_;
 }
 
 void GameScnce::Initialize() {
@@ -13,8 +20,8 @@ void GameScnce::Initialize() {
 	camera_ = new Camera();
 	camera_->Initialize();
 
-	particle_ = new Particle();
-	particle_->Initialize(modelParticle_);
+	effect_ = new Effect();
+	effect_->Initialize(modelParticle_);
 
 	// ワールド変形の初期化
 	worldTransform_.Initialize();
@@ -27,8 +34,15 @@ void GameScnce::Update() {
 	// ワールド変形の更新
 	worldTransform_.UpdateMatarix();
 	// パーティクルの更新
-	particle_->Update(); // ここでワールド変形を更新する
-	
+	effect_->Update(); // ここでワールド変形を更新する
+
+
+	worldTransform_.rotation_.x = 0.0f;
+	// Yスケールを乱数で設定
+	worldTransform_.scale_ = {1.0f, scaleDist(engine), 1.0f};
+	// Z回転を乱数で設定
+	worldTransform_.rotation_.z = rotDist(engine);
+	worldTransform_.UpdateMatarix();
 	worldTransform_.TransferMatrix();
 }
 
@@ -38,7 +52,7 @@ void GameScnce::Draw()
 	Model::PreDraw(dxCommon->GetCommandList());
 
 	// パーティクルの描画
-	particle_->Draw(camera_);
+	effect_->Draw(camera_);
 
 	Model::PostDraw();
 

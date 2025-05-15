@@ -1,6 +1,6 @@
 #pragma once
 #include "KamataEngine.h"
-#include "Particle.h"
+#include "Effect.h"
 
 using namespace KamataEngine;
 
@@ -21,7 +21,7 @@ private:
 	//カメラ
 	Camera* camera_ = nullptr;
 	//パーティクル
-	Particle* particle_ = nullptr;
+	Effect* effect_ = nullptr;
 	// ワールド変形
 	WorldTransform worldTransform_;
 };
