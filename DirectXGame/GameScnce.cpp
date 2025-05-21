@@ -21,7 +21,7 @@ GameScnce::~GameScnce() {
 void GameScnce::Initialize() {
 
 	modelParticle_ = new Model();
-	modelParticle_ = Model::CreateSphere(4, 4); // 先に初期化
+	modelParticle_ = Model::CreateFromOBJ("ddd", true); // モデルの生成
 	camera_ = new Camera();
 	camera_->Initialize();
 
