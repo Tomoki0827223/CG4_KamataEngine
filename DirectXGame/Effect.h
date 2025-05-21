@@ -3,19 +3,23 @@
 
 using namespace KamataEngine;
 
-class Effect 
-{
-public:
+class Effect {
 
-	// 初期化
+public:
+	
 	void Initialize(Model* model);
-	// 更新
 	void Update();
-	// 描画
 	void Draw(Camera* camera);
 
-private:
+	// 追加：ワールド変換を設定する関数
+	void SetWorldTransform(const WorldTransform& wt);
 
-	WorldTransform worldTransform_; // ワールド変形
-	Model* model_ = nullptr;        // モデル
+private:
+	Model* model_ = nullptr;
+	WorldTransform worldTransform_;
+
+	// ランダム値を保持する
+	float randomScaleY_ = 1.0f;
+	float randomRotZ_ = 0.0f;
+
 };
