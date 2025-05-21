@@ -4,8 +4,8 @@
 // 乱数生成用（グローバル）
 std::random_device seedGen;
 std::mt19937 engine(seedGen());
-std::uniform_real_distribution<float> scaleDist(0.5f, 2.0f);             // Yスケール範囲
-std::uniform_real_distribution<float> rotDist(0.0f, 3.14159265f * 2.0f); // Z回転範囲（0～2π）
+std::uniform_real_distribution<float> scaleDist(-1.0f, 1.0f);             // Yスケール範囲
+std::uniform_real_distribution<float> rotDist(0.0f, 1.0f); // Z回転範囲（0～2π）
 
 GameScnce::~GameScnce() {
 	delete modelParticle_;
