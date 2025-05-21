@@ -78,15 +78,28 @@ void GameScnce::Draw()
 }
 
 void GameScnce::ParticleBorn(Vector3 position) {
-	
-	for (int i = 0; i < 150; i++) {
+	const int modelCount = 10;
+
+	for (int i = 0; i < modelCount; ++i) {
+
+		Vector3 pos = position; // すべて同じ位置に重ねる
+
+		// ランダムなスケール（Y軸のみ正の値）
+		float scaleY = std::abs(distribution(randomEngine)) + 4.0f; // 最低0.5以上
+
+		// ランダムなZ軸回転（ラジアン）
+		float rotZ = std::uniform_real_distribution<float>(0.0f, MathUtility::PI * 2.0f)(randomEngine);
+
+		// パーティクル生成
 		Particle* particle = new Particle();
-		Vector3 velocity = {distribution(randomEngine), distribution(randomEngine), 0}; // ランダムな速度を生成
-		Normalize(velocity);
-		velocity *= distribution(randomEngine); // ランダムな速度を生成
-		velocity *= 0.1f;                       // スピードを調整
-		particle->Initialize(modelParticle_, position, velocity);
+		Vector3 velocity = {0, 0, 0};
+
+		particle->Initialize(modelParticle_, pos, velocity);
+
+		// スケールと回転を反映
+		particle->worldTransform_.scale_.y = scaleY;
+		particle->worldTransform_.rotation_.z = rotZ;
+
 		particles_.push_back(particle);
 	}
-
 }

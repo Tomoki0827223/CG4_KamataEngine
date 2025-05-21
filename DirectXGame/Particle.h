@@ -22,9 +22,10 @@ public:
 	//デスフラグのゲッター
 	bool IsFinished() const { return isFinished_; }
 
+	WorldTransform worldTransform_; // ワールド変形
+
 private:
 
-	WorldTransform worldTransform_; // ワールド変形
 	Model* model_ = nullptr;        // モデル
 
 	ObjectColor objectcolor_;

@@ -1,22 +1,28 @@
 #include "Particle.h"
 #include "math/MathUtility.h"
+#include <random>
 
 using namespace MathUtility;
 
-void Particle::Initialize(Model* model,Vector3 position, Vector3 velocity) 
-{ 
+void Particle::Initialize(Model* model, Vector3 position, Vector3 velocity) {
+
 	assert(model);
 	model_ = model;
-	velocity_ = velocity; // 速度を初期化
+	velocity_ = velocity;
 	worldTransform_.Initialize();
-	worldTransform_.translation_ = position; // ワールド変形の位置を初期化
-
-	//大きさ
-	worldTransform_.scale_ = {0.2f, 0.2f, 0.2f}; // ワールド変形の大きさを初期化
+	worldTransform_.translation_ = position;
+	worldTransform_.scale_ = {0.2f, 0.2f, 0.2f};
 
 	objectcolor_.Initialize();
-	color_ = {1, 1, 0, 1}; // RGBA形式で色を指定
+
+	// ランダムな色を生成
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	static std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+
+	color_ = {dist(gen), dist(gen), dist(gen), 1.0f}; // RGBをランダム、Aは1.0
 }
+
 
 void Particle::Update() 
 {
