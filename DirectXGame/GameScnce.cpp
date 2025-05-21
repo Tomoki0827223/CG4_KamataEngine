@@ -1,45 +1,40 @@
 #include "GameScnce.h"
+#include "Model2.h" // 念のため
 
 GameScnce::~GameScnce() 
 { 
-	delete modelParticle_;
-	delete camera_;
-	delete particle_;
+    delete modelParticle_;
+    delete camera_;
+
+    Model2::StaticFinalize(); // 追加
 }
 
 void GameScnce::Initialize() {
 
+    Model2::StaticInitialize(); // 追加
+
+    modelParticle_ = new Model();
 	modelParticle_ = Model::CreateFromOBJ("ddd", true);
-	camera_ = new Camera();
-	camera_->Initialize();
 
-	particle_ = new Particle();
-	particle_->Initialize(modelParticle_);
+    camera_ = new Camera();
+    camera_->Initialize();
 
-	// ワールド変形の初期化
-	worldTransform_.Initialize();
+    worldTransform_.Initialize();
 }
 
-
 void GameScnce::Update() {
-	// カメラの更新
-	camera_->UpdateMatrix();
-	// ワールド変形の更新
-	worldTransform_.UpdateMatarix();
-	// パーティクルの更新
-	particle_->Update(); // ここでワールド変形を更新する
-	
-	worldTransform_.TransferMatrix();
+    camera_->UpdateMatrix();
+    worldTransform_.UpdateMatarix();
+    worldTransform_.TransferMatrix();
 }
 
 void GameScnce::Draw() 
 {
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-	Model::PreDraw(dxCommon->GetCommandList());
+    DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	// パーティクルの描画
-	particle_->Draw(camera_);
+    Model::PreDraw(dxCommon->GetCommandList());
 
-	Model::PostDraw();
+    modelParticle_->Draw(worldTransform_, *camera_);
 
+    Model::PostDraw();
 }

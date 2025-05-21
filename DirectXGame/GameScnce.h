@@ -1,27 +1,20 @@
 #pragma once
-#include "KamataEngine.h"
-#include "Particle.h"
+#include <KamataEngine.h>
+#include "Model2.h" // 追加
 
 using namespace KamataEngine;
 
-class GameScnce 
-{
+class GameScnce {
 public:
-	
 	~GameScnce();
-	
 	void Initialize();
 	void Update();
 	void Draw();
 
 private:
-
-	// 3Dモデルの生成
+	
 	Model* modelParticle_ = nullptr;
-	//カメラ
 	Camera* camera_ = nullptr;
-	//パーティクル
-	Particle* particle_ = nullptr;
-	// ワールド変形
 	WorldTransform worldTransform_;
+
 };
