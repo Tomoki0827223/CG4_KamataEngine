@@ -6,14 +6,6 @@ void Effect::Initialize(Model* model) {
 	model_ = model;
 	worldTransform_.Initialize();
 
-	// ランダム値をここで一度だけ生成
-	std::random_device seedGen;
-	std::mt19937 engine(seedGen());
-	std::uniform_real_distribution<float> scaleDist(0.5f, 2.0f);
-	std::uniform_real_distribution<float> rotDist(0.0f, 3.14159265f * 2.0f);
-
-	randomScaleY_ = scaleDist(engine);
-	randomRotZ_ = rotDist(engine);
 }
 
 void Effect::Update() {

@@ -22,8 +22,7 @@ void GameScnce::Initialize() {
 	// ワールド変形の初期化
 	worldTransform_.Initialize();
 
-	// 乱数でスケールと回転
-	worldTransform_.scale_ = {1.0f, randomEngine, 1.0f};
+
 	worldTransform_.UpdateMatarix();
 	worldTransform_.TransferMatrix();
 
