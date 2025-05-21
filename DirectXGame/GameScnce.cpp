@@ -1,11 +1,9 @@
 #include "GameScnce.h"
 #include <random>
 
-// 乱数生成用（グローバル）
-std::random_device seedGen;
-std::mt19937 engine(seedGen());
-std::uniform_real_distribution<float> scaleDist(-1.0f, 1.0f);             // Yスケール範囲
-std::uniform_real_distribution<float> rotDist(0.0f, 1.0f); // Z回転範囲（0～2π）
+std::random_device seedGenerator;
+std::mt19937 randomEngine(seedGenerator()); // メルセンヌツイスタの初期化
+std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
 GameScnce::~GameScnce() {
 	delete modelParticle_;
@@ -25,8 +23,7 @@ void GameScnce::Initialize() {
 	worldTransform_.Initialize();
 
 	// 乱数でスケールと回転
-	worldTransform_.scale_ = {1.0f, scaleDist(engine), 1.0f};
-	worldTransform_.rotation_ = {0.0f, 0.0f, rotDist(engine)};
+	worldTransform_.scale_ = {1.0f, randomEngine, 1.0f};
 	worldTransform_.UpdateMatarix();
 	worldTransform_.TransferMatrix();
 
