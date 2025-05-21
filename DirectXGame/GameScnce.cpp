@@ -1,4 +1,9 @@
 #include "GameScnce.h"
+#include <random>
+
+std::random_device seedGenerator;
+std::mt19937 randomEngine(seedGenerator()); // メルセンヌツイスタの初期化
+std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
 GameScnce::~GameScnce() 
 { 
