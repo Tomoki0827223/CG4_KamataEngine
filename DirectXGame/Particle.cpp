@@ -15,6 +15,7 @@ void Particle::Initialize(Model* model, Vector3 position, Vector3 velocity) {
 
 	objectcolor_.Initialize();
 
+
 	// ランダムな色を生成
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
