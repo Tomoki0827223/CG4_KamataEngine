@@ -3,7 +3,6 @@
 
 GameScnce::~GameScnce() 
 { 
-    delete modelParticle_;
     delete camera_;
 
     Model2::StaticFinalize(); // 追加
@@ -13,8 +12,8 @@ void GameScnce::Initialize() {
 
     Model2::StaticInitialize(); // 追加
 
-    modelParticle_ = new Model();
-	modelParticle_ = Model::CreateFromOBJ("ddd", true);
+    model2_ = new Model2();
+	model2_ = Model2::Create();
 
     camera_ = new Camera();
     camera_->Initialize();
@@ -32,9 +31,10 @@ void GameScnce::Draw()
 {
     DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-    Model::PreDraw(dxCommon->GetCommandList());
+    Model2::PreDraw(dxCommon->GetCommandList());
 
-    modelParticle_->Draw(worldTransform_, *camera_);
+    model2_->Draw(worldTransform_, *camera_);
+    
+    Model2::PostDraw();
 
-    Model::PostDraw();
 }

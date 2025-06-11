@@ -13,7 +13,8 @@ public:
 
 private:
 	
-	Model* modelParticle_ = nullptr;
+	//Model* modelParticle_ = nullptr;
+	Model2* model2_ = nullptr; // 追加
 	Camera* camera_ = nullptr;
 	WorldTransform worldTransform_;
 

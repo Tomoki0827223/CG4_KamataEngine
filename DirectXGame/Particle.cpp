@@ -1,4 +1,5 @@
 #include "Particle.h"
+#include <cassert>
 
 void Particle::Initialize(Model* model) 
 { 
