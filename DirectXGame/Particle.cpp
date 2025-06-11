@@ -1,6 +1,7 @@
 #include "Particle.h"
 #include "math/MathUtility.h"
 #include <random>
+#include <cassert>
 
 using namespace MathUtility;
 
