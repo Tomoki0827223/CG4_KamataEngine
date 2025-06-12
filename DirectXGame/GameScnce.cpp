@@ -13,7 +13,7 @@ void GameScnce::Initialize() {
 	Model2::StaticInitialize(); // 追加
 
 
-	model2_ = Model2::CreateRing(5, 8.0f, 6.0f);
+	model2_ = Model2::CreateRing(20, 8.0f, 6.0f);
 
 	camera_ = new Camera();
 	camera_->Initialize();
