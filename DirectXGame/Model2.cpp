@@ -1,19 +1,19 @@
-//#include <3d\Model.h>
+// #include <3d\Model.h>
+#include "Model2.h"
 #include <3d\Camera.h>
-#include <base\DirectXCommon.h>
 #include <3d\Material.h>
-#include <math\MathUtility.h>
-#include <base\StringUtility.h>
-#include <base\TextureManager.h>
 #include <3d\WorldTransform.h>
 #include <algorithm>
+#include <base\DirectXCommon.h>
+#include <base\StringUtility.h>
+#include <base\TextureManager.h>
 #include <cassert>
 #include <d3dcompiler.h>
 #include <format>
 #include <fstream>
+#include <math\MathUtility.h>
 #include <numbers>
 #include <sstream>
-#include "Model2.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -179,69 +179,6 @@ Model2* Model2::CreateSquare(float width, float height, int count) {
 
 	instance->InitializeFromVertices(vertices, indices);
 
-	auto* mat = instance->materials_["no material"].get();
-	mat->textureFilename_ = "uvChecker.png";
-	instance->LoadTextures();
-
-	return instance;
-}
-
-Model2* Model2::CreateRing(uint32_t kRingDivide, float kOuterRadius, float kInnerRadius) {
-	Model2* instance = new Model2;
-	const float radianPerDivide = 2.0f * std::numbers::pi_v<float> / float(kRingDivide);
-
-	std::vector<Mesh::VertexPosNormalUv> vertices;
-	std::vector<uint32_t> indices;
-
-	for (uint32_t index = 0; index < kRingDivide; ++index) {
-		float angle = index * radianPerDivide;
-		float angleNext = (index + 1) * radianPerDivide;
-
-		float u = float(index) / float(kRingDivide);
-		float uNext = float(index + 1) / float(kRingDivide);
-
-		// 外周・現在
-		Mesh::VertexPosNormalUv v0;
-		v0.pos = {std::cos(angle) * kOuterRadius, std::sin(angle) * kOuterRadius, 0.0f};
-		v0.normal = {0.0f, 0.0f, 1.0f};
-		v0.uv = {u, 0.0f};
-		vertices.push_back(v0);
-
-		// 外周・次
-		Mesh::VertexPosNormalUv v1;
-		v1.pos = {std::cos(angleNext) * kOuterRadius, std::sin(angleNext) * kOuterRadius, 0.0f};
-		v1.normal = {0.0f, 0.0f, 1.0f};
-		v1.uv = {uNext, 0.0f};
-		vertices.push_back(v1);
-
-		// 内周・現在
-		Mesh::VertexPosNormalUv v2;
-		v2.pos = {std::cos(angle) * kInnerRadius, std::sin(angle) * kInnerRadius, 0.0f};
-		v2.normal = {0.0f, 0.0f, 1.0f};
-		v2.uv = {u, 1.0f};
-		vertices.push_back(v2);
-
-		// 内周・次
-		Mesh::VertexPosNormalUv v3;
-		v3.pos = {std::cos(angleNext) * kInnerRadius, std::sin(angleNext) * kInnerRadius, 0.0f};
-		v3.normal = {0.0f, 0.0f, 1.0f};
-		v3.uv = {uNext, 1.0f};
-		vertices.push_back(v3);
-
-		int v = index * 4;
-
-		indices.push_back(v + 0);
-		indices.push_back(v + 2);
-		indices.push_back(v + 1);
-		indices.push_back(v + 2);
-		indices.push_back(v + 3);
-		indices.push_back(v + 1);
-
-	}
-
-	instance->InitializeFromVertices(vertices, indices);
-
-	// テクスチャ設定
 	auto* mat = instance->materials_["no material"].get();
 	mat->textureFilename_ = "uvChecker.png";
 	instance->LoadTextures();
@@ -868,22 +805,19 @@ void ModelCommon2::InitializeGraphicsPipeline() {
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 
 	// 加算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;
+	// blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	// blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	// blenddesc.DestBlend = D3D12_BLEND_ONE;
 
-	//減算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	//blenddesc.DestBlend = D3D12_BLEND_ONE
+	// 減算合成
+	// blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+	// blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	// blenddesc.DestBlend = D3D12_BLEND_ONE
 
 	// 共通設定
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
-
-
-
 
 	// ブレンドステートの設定
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
