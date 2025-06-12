@@ -12,8 +12,7 @@ void GameScnce::Initialize() {
 
 	Model2::StaticInitialize(); // 追加
 
-    model2_ = Model2::CreateSquare(5.0f, 5.0f, 5); //四角形
-
+    model2_ = Model2::CreateRing(64, 10.0f, 7.0f); // 分割数64, 外半径10, 内半径7
 
 	camera_ = new Camera();
 	camera_->Initialize();
