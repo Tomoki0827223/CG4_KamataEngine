@@ -131,47 +131,57 @@ Model2* Model2::CreateSphere(uint32_t divisionVertial, uint32_t divisionHorizont
 	return instance;
 }
 
-Model2* Model2::CreateSquare(float width, float height) {
-	// インスタンス生成
+Model2* Model2::CreateSquare(float width, float height, int count) {
 	Model2* instance = new Model2;
 
-	std::vector<Mesh::VertexPosNormalUv> vertices(4);
-	std::vector<uint32_t> indices(6);
+	// 四角形1つあたり4頂点、6インデックス
+	std::vector<Mesh::VertexPosNormalUv> vertices(4 * count);
+	std::vector<uint32_t> indices(6 * count);
 
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
 
-	// 頂点データ設定（XY平面上、Z = 0）
-	// 左下
-	vertices[0].pos = {-hw, -hh, 0.0f};
-	vertices[0].uv = {0.0f, 1.0f};
-	vertices[0].normal = {0.0f, 0.0f, 1.0f};
+	for (int i = 0; i < count; ++i) {
+		float offsetX = (width + 0.2f) * i; // 0.2fは隙間。不要なら0に
 
-	// 左上
-	vertices[1].pos = {-hw, +hh, 0.0f};
-	vertices[1].uv = {0.0f, 0.0f};
-	vertices[1].normal = {0.0f, 0.0f, 1.0f};
+		// 頂点インデックス
+		int v = i * 4;
 
-	// 右下
-	vertices[2].pos = {+hw, -hh, 0.0f};
-	vertices[2].uv = {1.0f, 1.0f};
-	vertices[2].normal = {0.0f, 0.0f, 1.0f};
+		// 左下
+		vertices[v + 0].pos = {-hw + offsetX, -hh, 0.0f};
+		vertices[v + 0].uv = {0.0f, 1.0f};
+		vertices[v + 0].normal = {0.0f, 0.0f, 1.0f};
 
-	// 右上
-	vertices[3].pos = {+hw, +hh, 0.0f};
-	vertices[3].uv = {1.0f, 0.0f};
-	vertices[3].normal = {0.0f, 0.0f, 1.0f};
+		// 左上
+		vertices[v + 1].pos = {-hw + offsetX, +hh, 0.0f};
+		vertices[v + 1].uv = {0.0f, 0.0f};
+		vertices[v + 1].normal = {0.0f, 0.0f, 1.0f};
 
-	// インデックス（2つの三角形で四角形を構成）
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
-	indices[3] = 2;
-	indices[4] = 1;
-	indices[5] = 3;
+		// 右下
+		vertices[v + 2].pos = {+hw + offsetX, -hh, 0.0f};
+		vertices[v + 2].uv = {1.0f, 1.0f};
+		vertices[v + 2].normal = {0.0f, 0.0f, 1.0f};
 
-	// 頂点とインデックスからモデルを初期化
+		// 右上
+		vertices[v + 3].pos = {+hw + offsetX, +hh, 0.0f};
+		vertices[v + 3].uv = {1.0f, 0.0f};
+		vertices[v + 3].normal = {0.0f, 0.0f, 1.0f};
+
+		// インデックス
+		int idx = i * 6;
+		indices[idx + 0] = v + 0;
+		indices[idx + 1] = v + 1;
+		indices[idx + 2] = v + 2;
+		indices[idx + 3] = v + 2;
+		indices[idx + 4] = v + 1;
+		indices[idx + 5] = v + 3;
+	}
+
 	instance->InitializeFromVertices(vertices, indices);
+
+	auto* mat = instance->materials_["no material"].get();
+	mat->textureFilename_ = "uvChecker.png";
+	instance->LoadTextures();
 
 	return instance;
 }
@@ -239,6 +249,8 @@ void Model2::InitializeFromVertices(const std::vector<Mesh::VertexPosNormalUv>& 
 	for (auto& m : meshes_) {
 		m->CreateBuffers();
 	}
+
+	materials_.emplace(defaultMaterial_->name_, std::move(defaultMaterial_));
 
 	// テクスチャの読み込み
 	LoadTextures();

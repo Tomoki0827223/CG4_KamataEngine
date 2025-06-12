@@ -139,7 +139,7 @@ public: // 静的メンバ関数
 	static Model2* CreateSphere(uint32_t divisionVertial = 10, uint32_t divisionHorizontal = 10);
 	
 	// 追加・修正
-	static Model2* CreateSquare(float width = 1.0f, float height = 1.0f);
+	static Model2* CreateSquare(float width = 1.0f, float height = 1.0f, int count = 1);
 
 	/// <summary>
 	/// 描画前処理
