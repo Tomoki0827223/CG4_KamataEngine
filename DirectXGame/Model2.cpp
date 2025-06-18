@@ -142,25 +142,28 @@ Model2* Model2::CreateSquare(float width, float height) {
 	float hh = height * 0.5f;
 
 	// 頂点データ設定（XY平面上、Z = 0）
+	// 法線ベクトルを左手系（DirectX標準）に合わせてZ+方向に統一
+	Vector3 normal = {0.0f, 0.0f, 1.0f};
+
 	// 左下
 	vertices[0].pos = {-hw, -hh, 0.0f};
 	vertices[0].uv = {0.0f, 1.0f};
-	vertices[0].normal = {0.0f, 0.0f, 1.0f};
+	vertices[0].normal = normal;
 
 	// 左上
 	vertices[1].pos = {-hw, +hh, 0.0f};
 	vertices[1].uv = {0.0f, 0.0f};
-	vertices[1].normal = {0.0f, 0.0f, 1.0f};
+	vertices[1].normal = normal;
 
 	// 右下
 	vertices[2].pos = {+hw, -hh, 0.0f};
 	vertices[2].uv = {1.0f, 1.0f};
-	vertices[2].normal = {0.0f, 0.0f, 1.0f};
+	vertices[2].normal = normal;
 
 	// 右上
 	vertices[3].pos = {+hw, +hh, 0.0f};
 	vertices[3].uv = {1.0f, 0.0f};
-	vertices[3].normal = {0.0f, 0.0f, 1.0f};
+	vertices[3].normal = normal;
 
 	// インデックス（2つの三角形で四角形を構成）
 	indices[0] = 0;
@@ -175,7 +178,6 @@ Model2* Model2::CreateSquare(float width, float height) {
 
 	return instance;
 }
-
 
 void Model2::PreDraw(ID3D12GraphicsCommandList* commandList) { ModelCommon2::GetInstance()->PreDraw(commandList); }
 
