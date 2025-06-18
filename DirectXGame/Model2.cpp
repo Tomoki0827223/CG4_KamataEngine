@@ -194,49 +194,43 @@ Model2* Model2::CreateRing(uint32_t kRingDivide, float kOuterRadius, float kInne
 	std::vector<Mesh::VertexPosNormalUv> vertices;
 	std::vector<uint32_t> indices;
 
-	for (uint32_t index = 0; index < kRingDivide; ++index) {
-		float angle = index * radianPerDivide;
-		float angleNext = (index + 1) * radianPerDivide;
+	// 外周頂点
+	for (uint32_t i = 0; i < kRingDivide; ++i) {
+		float angle = i * radianPerDivide;
+		float u = float(i) / float(kRingDivide);
+		Mesh::VertexPosNormalUv v;
+		v.pos = {std::cos(angle) * kOuterRadius, std::sin(angle) * kOuterRadius, 0.0f};
+		v.normal = {0.0f, 0.0f, 1.0f};
+		v.uv = {u, 0.0f};
+		vertices.push_back(v);
+	}
+	// 内周頂点
+	for (uint32_t i = 0; i < kRingDivide; ++i) {
+		float angle = i * radianPerDivide;
+		float u = float(i) / float(kRingDivide);
+		Mesh::VertexPosNormalUv v;
+		v.pos = {std::cos(angle) * kInnerRadius, std::sin(angle) * kInnerRadius, 0.0f};
+		v.normal = {0.0f, 0.0f, 1.0f};
+		v.uv = {u, 1.0f};
+		vertices.push_back(v);
+	}
 
-		float u = float(index) / float(kRingDivide);
-		float uNext = float(index + 1) / float(kRingDivide);
+	// インデックス
+	for (uint32_t i = 0; i < kRingDivide; ++i) {
+		uint32_t outer0 = i;
+		uint32_t outer1 = (i + 1) % kRingDivide;
+		uint32_t inner0 = i + kRingDivide;
+		uint32_t inner1 = ((i + 1) % kRingDivide) + kRingDivide;
 
-		// 外周・現在
-		Mesh::VertexPosNormalUv v0;
-		v0.pos = {std::cos(angle) * kOuterRadius, std::sin(angle) * kOuterRadius, 0.0f};
-		v0.normal = {0.0f, 0.0f, 1.0f};
-		v0.uv = {u, 0.0f};
-		vertices.push_back(v0);
+		// 三角形1
+		indices.push_back(outer0);
+		indices.push_back(inner0);
+		indices.push_back(outer1);
 
-		// 外周・次
-		Mesh::VertexPosNormalUv v1;
-		v1.pos = {std::cos(angleNext) * kOuterRadius, std::sin(angleNext) * kOuterRadius, 0.0f};
-		v1.normal = {0.0f, 0.0f, 1.0f};
-		v1.uv = {uNext, 0.0f};
-		vertices.push_back(v1);
-
-		// 内周・現在
-		Mesh::VertexPosNormalUv v2;
-		v2.pos = {std::cos(angle) * kInnerRadius, std::sin(angle) * kInnerRadius, 0.0f};
-		v2.normal = {0.0f, 0.0f, 1.0f};
-		v2.uv = {u, 1.0f};
-		vertices.push_back(v2);
-
-		// 内周・次
-		Mesh::VertexPosNormalUv v3;
-		v3.pos = {std::cos(angleNext) * kInnerRadius, std::sin(angleNext) * kInnerRadius, 0.0f};
-		v3.normal = {0.0f, 0.0f, 1.0f};
-		v3.uv = {uNext, 1.0f};
-		vertices.push_back(v3);
-
-		int v = index * 4;
-
-		indices.push_back(v + 0);
-		indices.push_back(v + 2);
-		indices.push_back(v + 1);
-		indices.push_back(v + 2);
-		indices.push_back(v + 3);
-		indices.push_back(v + 1);
+		// 三角形2
+		indices.push_back(outer1);
+		indices.push_back(inner0);
+		indices.push_back(inner1);
 	}
 
 	instance->InitializeFromVertices(vertices, indices);
