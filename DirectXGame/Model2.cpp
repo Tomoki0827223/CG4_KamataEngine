@@ -143,7 +143,7 @@ Model2* Model2::CreateSquare(float width, float height) {
 
 	// 頂点データ設定（XY平面上、Z = 0）
 	// 法線ベクトルを左手系（DirectX標準）に合わせてZ+方向に統一
-	Vector3 normal = {0.0f, 0.0f, 1.0f};
+	Vector3 normal = {0.0f, 0.0f, -1.0f};
 
 	// 左下
 	vertices[0].pos = {-hw, -hh, 0.0f};
