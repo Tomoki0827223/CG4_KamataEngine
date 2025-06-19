@@ -150,22 +150,22 @@ Model2* Model2::CreateSquare(float width, float height, int count) {
 		// 左下
 		vertices[v + 0].pos = {-hw + offsetX, -hh, 0.0f};
 		vertices[v + 0].uv = {0.0f, 1.0f};
-		vertices[v + 0].normal = {0.0f, 0.0f, 1.0f};
+		vertices[v + 0].normal = {0.0f, 0.0f, -1.0f};
 
 		// 左上
 		vertices[v + 1].pos = {-hw + offsetX, +hh, 0.0f};
 		vertices[v + 1].uv = {0.0f, 0.0f};
-		vertices[v + 1].normal = {0.0f, 0.0f, 1.0f};
+		vertices[v + 1].normal = {0.0f, 0.0f, -1.0f};
 
 		// 右下
 		vertices[v + 2].pos = {+hw + offsetX, -hh, 0.0f};
 		vertices[v + 2].uv = {1.0f, 1.0f};
-		vertices[v + 2].normal = {0.0f, 0.0f, 1.0f};
+		vertices[v + 2].normal = {0.0f, 0.0f, -1.0f};
 
 		// 右上
 		vertices[v + 3].pos = {+hw + offsetX, +hh, 0.0f};
 		vertices[v + 3].uv = {1.0f, 0.0f};
-		vertices[v + 3].normal = {0.0f, 0.0f, 1.0f};
+		vertices[v + 3].normal = {0.0f, 0.0f, -1.0f};
 
 		// インデックス
 		int idx = i * 6;
