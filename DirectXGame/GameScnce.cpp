@@ -19,6 +19,9 @@ void GameScnce::Initialize() {
 	camera_->Initialize();
 
 	worldTransform_.Initialize();
+
+
+    TextureManager
 }
 
 

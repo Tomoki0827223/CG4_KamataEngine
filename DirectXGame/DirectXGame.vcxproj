@@ -111,6 +111,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model2.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="TitleScnce.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +194,7 @@
     <ClInclude Include="GameScnce.h" />
     <ClInclude Include="Model2.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="TitleScnce.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

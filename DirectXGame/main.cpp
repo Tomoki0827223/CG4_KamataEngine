@@ -1,8 +1,14 @@
 #include "KamataEngine.h"
 #include <Windows.h>
 #include "GameScnce.h"
+#include "TitleScnce.h"
 
 using namespace KamataEngine;
+
+// ファイル先頭付近に追加
+enum class Scene { Title, Game };
+
+Scene scene = Scene::Title;
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -14,6 +20,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+	// main関数の前に
+	TitleScnce* titleScnce = nullptr;
+
+	// タイトルシーンの初期化
+	titleScnce = new TitleScnce();
+	titleScnce->Initialize();
+
 	GameScnce* gameScnce = new GameScnce();
 	gameScnce->Initialize();
 
@@ -22,12 +35,23 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		if (KamataEngine::Update()) {
 			break;
 		}
-
 		// ゲームシーンの更新
 		gameScnce->Update();
 
 		// 描画処理
 		dxCommon->PreDraw();
+
+		// シーンごとに処理を分岐
+		if (scene == Scene::Title) {
+			titleScnce->Update();
+			titleScnce->Draw();
+			if (titleScnce->IsSelectFinished()) {
+				scene = Scene::Game;
+			}
+		} else if (scene == Scene::Game) {
+
+		}
+
 
 		// ゲームシーンの描画
 		gameScnce->Draw();
