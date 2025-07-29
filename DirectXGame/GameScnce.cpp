@@ -20,23 +20,47 @@ void GameScnce::Initialize() {
 
 	worldTransform_.Initialize();
 
+	sprite_ = new Sprite();
+	sprite_->Create(textureHandle_, {0, 0});
+
+
+    stage_ = std::make_unique<Stage>();
+	stage_->Initialize();
+
 }
 
 
 void GameScnce::Update() {
-    camera_->UpdateMatrix();
-    worldTransform_.UpdateMatarix();
-    worldTransform_.TransferMatrix();
+	camera_->UpdateMatrix();
+	worldTransform_.UpdateMatarix();
+	worldTransform_.TransferMatrix();
+
+	if (stage_) {
+		stage_->Update();
+
+		// 例: スクロールスプライトの色を変更
+		auto bg1 = stage_->GetBgSprite1();
+		if (bg1) {
+			bg1->SetColor({1, 0.5f, 0.5f, 1}); // 赤っぽく
+		}
+	}
 }
 
-void GameScnce::Draw() 
-{
-    DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+void GameScnce::Draw() {
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-    Model2::PreDraw(dxCommon->GetCommandList());
+	// 背景スプライトを先に描画
+	if (stage_) {
+		auto bg1 = stage_->GetBgSprite1();
+		auto bg2 = stage_->GetBgSprite2();
+		if (bg1)
+			bg1->Draw();
+		if (bg2)
+			bg2->Draw();
+	}
 
-    model2_->Draw(worldTransform_, *camera_);
-    
-    Model2::PostDraw();
-
+	// 3Dモデル描画
+	Model2::PreDraw(dxCommon->GetCommandList());
+	model2_->Draw(worldTransform_, *camera_);
+	Model2::PostDraw();
 }
