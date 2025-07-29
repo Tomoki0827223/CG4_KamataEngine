@@ -56,6 +56,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	delete gameScnce;
 	gameScnce = nullptr;
+	delete titleScnce;
+	titleScnce = nullptr;
+	// ここでゲームシーンの終了処理を行う
 
 	// 終了処理
 	KamataEngine::Finalize();

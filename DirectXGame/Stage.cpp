@@ -4,7 +4,11 @@
 
 using namespace KamataEngine;
 
-Stage::~Stage() {}
+Stage::~Stage() 
+{ 
+	delete sprite_; 
+	delete sprite2_;
+}
 
 void Stage::Initialize() {
 

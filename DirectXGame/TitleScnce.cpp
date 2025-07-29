@@ -5,6 +5,10 @@ TitleScnce::~TitleScnce() {
 	delete titlemodel_;
 	delete titlemodelFont_;
 	delete TitleSkydome_;
+	delete sprite_;
+	delete sprite2_;
+	delete sprite3_;
+	delete sprite4_;
 }
 
 void TitleScnce::Initialize() {

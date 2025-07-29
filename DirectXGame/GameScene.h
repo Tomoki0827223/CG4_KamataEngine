@@ -1,6 +1,7 @@
 #pragma once
 #include "KamataEngine.h"
 #include "Stage.h"
+#include "Player.h"
 
 using namespace KamataEngine;
 
@@ -27,4 +28,8 @@ private:
 	WorldTransform worldTransform;
 
 	Stage* stage_ = nullptr;
+
+	Player* player_ = nullptr;
+
+	Model* playerModel_ = nullptr;
 };

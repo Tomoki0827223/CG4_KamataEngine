@@ -1,6 +1,12 @@
 #include "GameScene.h"
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() 
+{
+	delete stage_;
+	delete player_;
+	delete playerModel_;
+	delete model_;
+}
 
 void GameScene::Initialize() {
 
@@ -13,9 +19,18 @@ void GameScene::Initialize() {
 	camera_.Initialize();
 
 	worldTransform.Initialize();
+
+	player_ = new Player();
+	player_->Initialize();
+	playerModel_ = Model::CreateFromOBJ("cube");
 }
 
-void GameScene::Update() { stage_->Update(); }
+void GameScene::Update() 
+{ 
+	stage_->Update(); 
+
+	player_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -24,6 +39,8 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
 	stage_->Draw();
+
+	player_->Draw();
 
 	Sprite::PostDraw();
 }
