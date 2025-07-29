@@ -1,32 +1,47 @@
-#include "stage.h"
+#include "Stage.h"
+#include "GameScene.h"
+#include "KamataEngine.h"
 
-
-Stage::Stage() {}
+using namespace KamataEngine;
 
 Stage::~Stage() {}
 
 void Stage::Initialize() {
 
-	textureHandle_ = TextureManager::Load("Resources/scroll_bg.png");
+	input_ = KamataEngine::Input::GetInstance();
 
-	bgSprite1_.reset(Sprite::Create(textureHandle_, {0, 0}));
-	bgSprite2_.reset(Sprite::Create(textureHandle_, {screenWidth_, 0}));
+	textureHandle_ = TextureManager::Load("scroll_bg.png");
+
+	sprite_ = Sprite::Create(textureHandle_, {0, 0});
+
+	sprite2_ = Sprite::Create(textureHandle_, {1280, 0});
 }
 
 void Stage::Update() {
-	scrollX_ -= scrollSpeed_;
-	if (scrollX_ <= -screenWidth_) {
-		scrollX_ += screenWidth_;
+	// 1枚目
+	Vector2 pos1 = sprite_->GetPosition();
+	pos1.x -= scrollSpeed_;
+	if (pos1.x <= -1280) {
+		pos1.x = 1280 - scrollSpeed_; // 2枚目の右端にピッタリつなげる
 	}
-	if (bgSprite1_)
-		bgSprite1_->SetPosition({scrollX_, 0});
-	if (bgSprite2_)
-		bgSprite2_->SetPosition({scrollX_ + screenWidth_, 0});
+	sprite_->SetPosition(pos1);
+
+	// 2枚目
+	Vector2 pos2 = sprite2_->GetPosition();
+	pos2.x -= scrollSpeed_;
+	if (pos2.x <= -1280) {
+		pos2.x = 1280 - scrollSpeed_;
+	}
+	sprite2_->SetPosition(pos2);
 }
 
 void Stage::Draw() {
-	if (bgSprite1_)
-		bgSprite1_->Draw();
-	if (bgSprite2_)
-		bgSprite2_->Draw();
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	Sprite::PreDraw(dxCommon->GetCommandList());
+
+	sprite_->Draw();
+	sprite2_->Draw();
+
+	Sprite::PostDraw();
 }
