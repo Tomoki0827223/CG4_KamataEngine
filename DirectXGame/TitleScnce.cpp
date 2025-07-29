@@ -27,18 +27,16 @@ void TitleScnce::Initialize() {
 	Timer_ = 0.0f;
 
 	// タイトルを中央に寄せるために調整
-	titleWorldTransform_.translation_ = {0.0f, 30.0f, -40.0f}; // x, y, zの値を調整
+	titleWorldTransform_.translation_ = {0.0f, 0.0f, 0.0f}; // x, y, zの値を調整
 
-	titleWorldTransformFont_.translation_ = {-18.0f, -10.0f, 0.0f}; // x, y, zの値を調整
+	titleWorldTransformFont_.translation_ = {0.0f, 0.0f, 0.0f}; // x, y, zの値を調整
 
 	titleskydome.translation_ = {0.0f, 0.0f, 0.0f};
 
-	//TitleSEHandle_ = audio_->LoadWave("Sounds/wind.wav");
-	//TitleSEHandle2_ = audio_->LoadWave("Sounds/windBell.wav");
-	//TitleSEHandle3_ = audio_->LoadWave("Sounds/start.wav");
-
-	//voiceHandle_ = audio_->PlayWave(TitleSEHandle_, true);
-	//voiceHandle2_ = audio_->PlayWave(TitleSEHandle2_, true);
+	// sprite2_の初期位置を画面外（上）に設定
+	if (sprite2_) {
+		sprite2_->SetPosition({0, -static_cast<float>(1280)}); // 画面上部外へ（高さは適宜調整）
+	}
 
 	// スプライトの初期化
 	InitializeSprites();
@@ -55,9 +53,23 @@ void TitleScnce::Update() {
 	Timer_ += 1.0f; // フレームごとに加算
 
 	// Enterキーでタイトル終了
-	if (input_->TriggerKey(DIK_RETURN) || input_->TriggerKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_RETURN) || input_->TriggerKey(DIK_RETURN)) {
 		//audio_->PlayWave(TitleSEHandle3_, false); // スタートSE
 		isFinished_ = true;
+	}
+
+	// 降下アニメーション
+	if (sprite2_) {
+		auto pos = sprite2_->GetPosition();
+		float targetY = 0.0f; // 目的のY座標
+		float speed = 20.0f;  // 降りてくる速さ（調整可）
+
+		if (pos.y < targetY) {
+			pos.y += speed;
+			if (pos.y > targetY)
+				pos.y = targetY; // 行き過ぎ防止
+			sprite2_->SetPosition(pos);
+		}
 	}
 }
 
@@ -71,15 +83,18 @@ void TitleScnce::Draw() {
 	// スプライト描画
 	KamataEngine::Sprite::PreDraw(commandList);
 
-	// タイトル画像（中央に表示）
+	// ★ここで背景スプライトを全画面に描画
+	// 例: 1280x720の青色背景
+	// KamataEngine::Sprite::DrawRect({0, 0}, {1280, 720}, {0.4f, 0.6f, 0.9f, 1.0f}); // RGBA
+
+	// タイトル画像（降下アニメーション位置で表示）
 	if (sprite2_) {
-		sprite2_->SetPosition({320, 180}); // 画面中央に調整（例: 1280x720なら）
 		sprite2_->Draw();
 	}
 
 	// 「Hit Enter」点滅（30フレームごとにON/OFF）
 	if (sprite3_ && static_cast<int>(Timer_) % 60 < 30) {
-		sprite3_->SetPosition({400, 400}); // 好きな位置に調整
+		sprite3_->SetPosition({0, 0});
 		sprite3_->Draw();
 	}
 

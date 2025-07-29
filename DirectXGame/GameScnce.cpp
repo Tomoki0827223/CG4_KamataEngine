@@ -20,8 +20,6 @@ void GameScnce::Initialize() {
 
 	worldTransform_.Initialize();
 
-
-    TextureManager
 }
 
 
