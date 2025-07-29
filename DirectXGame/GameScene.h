@@ -2,6 +2,7 @@
 #include "KamataEngine.h"
 #include "Stage.h"
 #include "Player.h"
+#include "Graph.h"
 
 using namespace KamataEngine;
 
@@ -32,4 +33,6 @@ private:
 	Player* player_ = nullptr;
 
 	Model* playerModel_ = nullptr;
+
+	Graph* graph_ = nullptr;
 };
