@@ -7,6 +7,7 @@ GameScene::~GameScene()
 	delete playerModel_;
 	delete model_;
 	delete graph_;
+	delete font_;
 }
 
 void GameScene::Initialize() {
@@ -27,6 +28,10 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize();
 	playerModel_ = Model::CreateFromOBJ("cube");
+
+	font_ = new BIt_Map_Font();
+
+	font_->Initialize();
 }
 
 void GameScene::Update() 
@@ -36,6 +41,10 @@ void GameScene::Update()
 	player_->Update();
 
 	graph_->Update();
+
+	score_++;
+	font_->Set(score_);
+
 }
 
 void GameScene::Draw() {
@@ -50,6 +59,8 @@ void GameScene::Draw() {
 	player_->Draw();
 
 	graph_->Draw();
+
+	font_->Draw();
 
 
 	Model::PostDraw();

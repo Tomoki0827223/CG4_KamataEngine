@@ -3,6 +3,7 @@
 #include "Stage.h"
 #include "Player.h"
 #include "Graph.h"
+#include "BIt_Map_Font.h"
 
 using namespace KamataEngine;
 
@@ -35,4 +36,7 @@ private:
 	Model* playerModel_ = nullptr;
 
 	Graph* graph_ = nullptr;
+
+	BIt_Map_Font* font_ = nullptr;
+	int score_ = 0;
 };
